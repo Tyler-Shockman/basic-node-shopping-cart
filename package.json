@@ -1,0 +1,27 @@
+{
+  "name": "basic-node-shopping-cart",
+  "version": "1.0.0",
+  "description": "This project serves as a demonstration of my understanding of web development using Node.js and integrating it with a MySQL database to create a basic shopping cart application.",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Tyler-Shockman/basic-node-shopping-cart.git"
+  },
+  "keywords": [
+    "nodejs",
+    "express",
+    "web"
+  ],
+  "author": "Tyler Shockman",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tyler-Shockman/basic-node-shopping-cart/issues"
+  },
+  "homepage": "https://github.com/Tyler-Shockman/basic-node-shopping-cart#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
