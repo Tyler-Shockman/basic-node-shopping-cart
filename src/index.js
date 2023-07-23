@@ -1,12 +1,18 @@
-require('dotenv').config()
-const express = require("express");
-const app = express()
+import dotenv from 'dotenv'
+import express from 'express';
+import Routes from './routes.js';
+
+dotenv.config()
 const port = process.env.PORT || 3000
 
-app.get('/test', (request, response) => {
-    response.send('Hello World')
-})
+function startApp() {
+    const app = express()
 
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
-})
+    Routes.apply(app)
+    
+    app.listen(port, () => {
+        console.log(`App listening on port ${port}`)
+    })
+}
+
+startApp()
