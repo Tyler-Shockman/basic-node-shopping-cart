@@ -32,5 +32,8 @@
   "type": "module",
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.22.5"
+  },
+  "jest": {
+    "setupFilesAfterEnv": ["./jest-setup.js"]
   }
 }
