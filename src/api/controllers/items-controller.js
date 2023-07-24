@@ -1,23 +1,14 @@
-import { Database } from "../../db/connection.js"
+import { itemService } from "../../services/item-service.js"
 
 export default class ItemsController {
     static async getAllItems(req, res) {
-        const result = await new Promise((resolve, reject) => {
-            Database.getConnection().query('SELECT * FROM items', (err, data) => {
-                if (err) reject(err)
-                resolve(data)
-            })
-        })
-        res.send(result)
+        const items = await itemService.getAllItems()
+        res.status(200).send(items)
     }
 
-    static async getItemCategories(req, res) {
-        const result = await new Promise((resolve, reject) => {
-            Database.getConnection().query('SELECT * FROM category', (err, data) => {
-                if (err) reject(err)
-                resolve(data)
-            })
-        })
-        res.send(result)
+    static async getItem(req, res) {
+        const itemId = req.params.itemId
+        const item = await itemService.getItem(itemId)
+        res.status(200).send(item)
     }
 }

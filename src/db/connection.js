@@ -19,4 +19,4 @@ class DBConnection {
     }
 }
 
-export const Database = new DBConnection()
+export const database = new DBConnection()

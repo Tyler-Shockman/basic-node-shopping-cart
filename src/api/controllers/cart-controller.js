@@ -1,42 +1,51 @@
-import { Redis } from "../../redis/connection.js"
+import { cartService } from "../../services/cart-service.js"
+import crypto from 'crypto'
 
 export default class CartController {
     static async getCart(req, res) {
         const cartId = req.params.cartId
-        const result = await Redis.getConnection().get(cartId)
-        if (!result) res.status(404)
-        res.send(result)
+        const cart = await cartService.getCart(cartId)
+        res.status(200).send(cart)
+    }
+
+    static async createNewCart(req, res) {
+        const cartId = crypto.randomUUID()
+        const cart = await cartService.createNewCart(cartId)
+        res.status(201).send(cart)
     }
 
     static async addItemToCart(req, res) {
         const cartId = req.params.cartId
         const itemId = req.params.itemId
         const quantity = parseInt(req.query.quantity) || 1
-        const newItem = { itemId, count: quantity }
+        const cart = await cartService.addItemToCart(cartId, itemId, quantity)
+        res.status(200).send(cart)
+    } 
 
-        let cart = null
-        const exisitngCartJson = await Redis.getConnection().get(cartId)
-        if (exisitngCartJson) {
-            cart = JSON.parse(exisitngCartJson)
-            const inCart = cart.items[itemId]
-            if (inCart) inCart.count = parseInt(inCart.count) + quantity
-            else cart.items[itemId] = newItem
-        } else {
-            cart = {
-                cartId: cartId,
-                items: {}
-            }
-            cart.items[itemId] = newItem
-        }
-        Redis.getConnection().set(cartId, JSON.stringify(cart))
-
-        const result = await Redis.getConnection().get(cartId)
-        res.send(result)
+    static async reduceItemInCart(req, res) {
+        const cartId = req.params.cartId
+        const itemId = req.params.itemId
+        const quantity = parseInt(req.query.quantity) || 1
+        const cart = await cartService.reduceItemInCart(cartId, itemId, quantity)
+        res.status(200).send(cart)
     }
 
-    static async clearCart(req, res) {
+    static async removeItemFromCart(req, res) {
         const cartId = req.params.cartId
-        await Redis.getConnection().del(cartId)
+        const itemId = req.params.itemId
+        const cart = await cartService.removeItemFromCart(cartId, itemId)
+        res.status(200).send(cart)
+    }
+
+    static async emptyCart(req, res) {
+        const cartId = req.params.cartId
+        const cart = await cartService.emptyCart(cartId)
+        res.status(200).send(cart)
+    }
+
+    static async deleteCart(req, res) {
+        const cartId = req.params.cartId
+        await cartService.deleteCart(cartId)
         res.status(204).send()
     }
 }

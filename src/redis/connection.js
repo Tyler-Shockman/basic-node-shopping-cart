@@ -14,4 +14,4 @@ class RedisConnection {
     }
 }
 
-export const Redis = new RedisConnection()
+export const redis = new RedisConnection()
