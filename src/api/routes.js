@@ -1,37 +1,20 @@
 import CartController from "./controllers/cart-controller.js"
 import CategoryController from "./controllers/category-controller.js"
 import ItemsController from "./controllers/items-controller.js"
+import express from 'express';
 
-export default class Routes {
-    applyAll(app) {
-        console.log('Applying all routes.')
-        this.#applyItemRoutes(app)
-        this.#applyCategoryRoutes(app)
-        this.#applyCartRoutes(app)
-    }
+export const routes = express.Router()
 
-    #applyItemRoutes(app) {
-        console.log('Applying item routes.')
-        app.get('/items', ItemsController.getAllItems)
-        app.get('/item/:itemId', ItemsController.getItem)
-    }
+routes.get('/items', ItemsController.getAllItems)
+routes.get('/items/:itemId', ItemsController.getItem)
 
-    #applyCategoryRoutes(app) {
-        console.log('Applying category routes.')
-        app.get('/categories', CategoryController.getAllCategories)
-        app.get('/categories/:categoryId', CategoryController.getCategory)
-    }
+routes.get('/categories', CategoryController.getAllCategories)
+routes.get('/categories/:categoryId', CategoryController.getCategory)
 
-    #applyCartRoutes(app) {
-        console.log('Applying cart routes.')
-        app.get('/cart/:cartId', CartController.getCart)
-        app.post('/cart', CartController.createNewCart)
-        app.patch('/cart/:cartId/add/:itemId', CartController.addItemToCart)
-        app.patch('/cart/:cartId/reduce/:itemId', CartController.reduceItemInCart)
-        app.delete('/cart/:cartId/remove/:itemId', CartController.removeItemFromCart)
-        app.patch('/cart/:cartId/empty', CartController.emptyCart)
-        app.delete('/cart/:cartId', CartController.deleteCart)
-    }
-}
-
-export const routes = new Routes()
+routes.get('/cart/:cartId', CartController.getCart)
+routes.post('/cart', CartController.createNewCart)
+routes.patch('/cart/:cartId/add/:itemId', CartController.addItemToCart)
+routes.patch('/cart/:cartId/reduce/:itemId', CartController.reduceItemInCart)
+routes.delete('/cart/:cartId/remove/:itemId', CartController.removeItemFromCart)
+routes.patch('/cart/:cartId/empty', CartController.emptyCart)
+routes.delete('/cart/:cartId', CartController.deleteCart)
