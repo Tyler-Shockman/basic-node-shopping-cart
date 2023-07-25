@@ -1,3 +1,5 @@
+import CartAlreadyExistsException from "../exceptions/CartAlreadyExistsException.js";
+import CartNotFoundException from "../exceptions/CartNotFoundException.js";
 import Cart from "../models/cart.js";
 import { redis } from "../redis/connection.js";
 import { itemService } from "./item-service.js";
@@ -11,7 +13,7 @@ class CartService {
 
     async createNewCart(cartId) {
         const existingCart = await this.getCart(cartId)
-        if (existingCart) throw new Error("Cart already exists.")
+        if (existingCart) throw new CartAlreadyExistsException()
         const newCart = new Cart(cartId)
         await redis.getConnection().set(cartId, newCart.toJson())
         console.info(`New cart created with id ${cartId}.`)
@@ -61,7 +63,7 @@ class CartService {
 
     async #getCartOrFail(cartId) {
         const cart = await this.getCart(cartId)
-        if (!cart) throw new Error(`No cart with id ${cartId}`)
+        if (!cart) throw new CartNotFoundException(`None with id = ${cartId}`)
         return cart
     }
 }

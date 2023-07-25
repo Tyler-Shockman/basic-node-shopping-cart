@@ -1,10 +1,12 @@
 import { cartService } from "../../services/cart-service.js"
 import crypto from 'crypto'
+import CartNotFoundException from "../../exceptions/CartNotFoundException.js"
 
 export default class CartController {
     static async getCart(req, res) {
         const cartId = req.params.cartId
         const cart = await cartService.getCart(cartId)
+        if (!cart) throw new CartNotFoundException(`None with id = ${cartId}.`)
         res.status(200).send(cart)
     }
 

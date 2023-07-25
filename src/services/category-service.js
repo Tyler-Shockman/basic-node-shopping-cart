@@ -1,4 +1,5 @@
 import { database } from "../db/connection.js";
+import CategoryNotFoundException from "../exceptions/CategoryNotFoundException.js";
 
 class CategoryService {
     async getAllCategories() {
@@ -18,7 +19,7 @@ class CategoryService {
                 resolve(data)
             })
         }))[0]
-        if (!category) throw new Error(`No category with id = ${categoryId}.`)
+        if (!category) throw new CategoryNotFoundException(`None with id = ${categoryId}`)
         return category
     }
 }

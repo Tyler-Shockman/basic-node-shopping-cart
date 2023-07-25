@@ -1,3 +1,6 @@
+import ItemNotInCartException from "../exceptions/ItemNotInCartException.js"
+import ReduceQuantityGreaterThanCartQuantityException from "../exceptions/ReduceQuantityGreaterThanCartQuantityException.js"
+
 export default class Cart {
     constructor(cartId, items = new Map()) {
         this.cartId = cartId,
@@ -27,15 +30,15 @@ export default class Cart {
 
     reduceItem(item, quantity) {
         const inCart = this.items[item.id]
-        if (!inCart) throw new Error('Item is not in cart. Cannot reduce.')
-        else if (quantity > inCart.count) throw new Error('Reduce quantity is greater than quantity in cart. Cannot reduce.')
+        if (!inCart) throw new ItemNotInCartException(`Cannot reduce ${item.name} quantity.`)
+        else if (quantity > inCart.count) throw new ReduceQuantityGreaterThanCartQuantityException(`Cannot reduce ${item.name} qantity`)
         else if (quantity == inCart.count) delete this.items[item.id]
         else inCart.count -= quantity
     }
 
     removeItem(item) {
         const inCart = this.items[item.id]
-        if (!inCart) throw new Error('Item is not in cart. Cannot remove.')
+        if (!inCart) throw new ItemNotInCartException(`Cannot remove ${item.name}.`)
         delete this.items[item.id]
     }
 
