@@ -3,18 +3,28 @@ import CategoryController from "./controllers/category-controller.js"
 import ItemsController from "./controllers/items-controller.js"
 import express from 'express';
 
+const tryWrapper = (controllerMethod) => {
+    return async function (req, res, next) {
+        try {
+            await controllerMethod(req, res)
+        } catch (err) {
+           next(err)
+        }
+    }
+} 
+
 export const routes = express.Router()
 
-routes.get('/items', ItemsController.getAllItems)
-routes.get('/items/:itemId', ItemsController.getItem)
+routes.get('/items', tryWrapper(ItemsController.getAllItems))
+routes.get('/items/:itemId', tryWrapper(ItemsController.getItem))
 
-routes.get('/categories', CategoryController.getAllCategories)
-routes.get('/categories/:categoryId', CategoryController.getCategory)
+routes.get('/categories', tryWrapper(CategoryController.getAllCategories))
+routes.get('/categories/:categoryId', tryWrapper(CategoryController.getCategory))
 
-routes.get('/cart/:cartId', CartController.getCart)
-routes.post('/cart', CartController.createNewCart)
-routes.patch('/cart/:cartId/add/:itemId', CartController.addItemToCart)
-routes.patch('/cart/:cartId/reduce/:itemId', CartController.reduceItemInCart)
-routes.delete('/cart/:cartId/remove/:itemId', CartController.removeItemFromCart)
-routes.patch('/cart/:cartId/empty', CartController.emptyCart)
-routes.delete('/cart/:cartId', CartController.deleteCart)
+routes.get('/cart/:cartId', tryWrapper(CartController.getCart))
+routes.post('/cart', tryWrapper(CartController.createNewCart))
+routes.patch('/cart/:cartId/add/:itemId', tryWrapper(CartController.addItemToCart))
+routes.patch('/cart/:cartId/reduce/:itemId', tryWrapper(CartController.reduceItemInCart))
+routes.delete('/cart/:cartId/remove/:itemId', tryWrapper(CartController.removeItemFromCart))
+routes.patch('/cart/:cartId/empty', tryWrapper(CartController.emptyCart))
+routes.delete('/cart/:cartId', tryWrapper(CartController.deleteCart))

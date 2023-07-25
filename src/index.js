@@ -10,6 +10,10 @@ const port = process.env.PORT || 3000
 function startApp() {
     const app = express()
     app.use(routes)
+    app.use((error, req, res, next) => {
+        console.error(error)
+        res.status(500).send()
+    })
     database.startConnection()
     redis.startConnection()
     app.listen(port, () => console.log(`App listening on port ${port}.`))
