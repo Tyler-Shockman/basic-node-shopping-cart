@@ -1,4 +1,4 @@
-import { Database } from "./connection"
+import { database } from "./connection"
 import mysql from 'mysql'
 
 jest.mock('mysql')
@@ -18,7 +18,7 @@ describe('DBConnection', () => {
             process.env.DB_PASSWORD = 'testpassword'
             process.env.DB_NAME = 'testname'
 
-            Database.startConnection()
+            database.startConnection()
             expect(mysql.createConnection).toHaveBeenCalledTimes(1)
             expect(mysql.createConnection).toHaveBeenCalledWith(
                 {
@@ -32,15 +32,15 @@ describe('DBConnection', () => {
         })
 
         it('should connect to the newly created connection', () => {
-            Database.startConnection()
+            database.startConnection()
             expect(mockConnection.connect).toHaveBeenCalledTimes(1)
         })
     })
 
     describe('getConnection()', () => {
         it('should return the connection', () => {
-            Database.startConnection()
-            const result = Database.getConnection()
+            database.startConnection()
+            const result = database.getConnection()
             expect(result).toBe(mockConnection)
         })
     })

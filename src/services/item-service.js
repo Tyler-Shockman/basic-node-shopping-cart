@@ -1,5 +1,5 @@
 import { database } from "../db/connection.js";
-import ItemNotInCartException from "../exceptions/ItemNotInCartException.js";
+import ItemNotFoundException from "../exceptions/ItemNotFoundException.js";
 
 export default class ItemService {
     async getItem(itemId) {
@@ -9,7 +9,7 @@ export default class ItemService {
                 resolve(data)
             })
         }))[0]
-        if (!item) throw new ItemNotInCartException(`None with id = ${itemId}.`)
+        if (!item) throw new ItemNotFoundException(`None with id = ${itemId}.`)
         return item
     }
 
