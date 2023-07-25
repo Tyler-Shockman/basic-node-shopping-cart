@@ -2,16 +2,7 @@ import CartController from "./controllers/cart-controller.js"
 import CategoryController from "./controllers/category-controller.js"
 import ItemsController from "./controllers/items-controller.js"
 import express from 'express';
-
-const tryWrapper = (controllerMethod) => {
-    return async function (req, res, next) {
-        try {
-            await controllerMethod(req, res)
-        } catch (err) {
-           next(err)
-        }
-    }
-} 
+import { tryWrapper } from "./utils.js";
 
 export const routes = express.Router()
 
