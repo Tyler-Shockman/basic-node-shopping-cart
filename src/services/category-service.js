@@ -4,6 +4,7 @@ import CategoryNotFoundException from "../exceptions/CategoryNotFoundException.j
 class CategoryService {
     async getAllCategories() {
         const categories = await new Promise((resolve, reject) => {
+            // TODO: SELECT EXACTLY WHAT IS NEEDED.
             database.getConnection().query('SELECT * FROM category', (err, data) => {
                 if (err) reject(err)
                 resolve(data)

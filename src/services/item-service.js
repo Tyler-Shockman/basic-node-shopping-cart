@@ -17,6 +17,7 @@ export default class ItemService {
 
     async getAllItems() {
         const items = await new Promise((resolve, reject) => {
+            // TODO: SELECT EXACTLY WHAT IS NEEDED.
             database.getConnection().query('SELECT * FROM items', (err, data) => {
                 if (err) reject(err)
                 resolve(data)
