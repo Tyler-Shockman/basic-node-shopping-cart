@@ -2,11 +2,9 @@ import { database } from "../db/connection.js";
 import ItemNotFoundException from "../exceptions/ItemNotFoundException.js";
 
 export default class ItemService {
-    // TODO: RE-ORDER THE METHODS HERE IN THE SAME ORDER AS IN category-service.js.
     async getItem(itemId) {
         const item = (await new Promise((resolve, reject) => {
-            // TODO: REMOVE THE ${itemId} FROM THE QUERY STRING AND PUT INTO A QUERY PARAM. THIS WILL HELP PROTECT AGAINST SQL INJECTION.
-            database.getConnection().query(`SELECT id, category_id, name FROM items WHERE id = ${itemId}`, (err, data) => {
+            database.getConnection().query(`SELECT id, category_id, name FROM items WHERE id = ?`, [itemId], (err, data) => {
                 if (err) reject(err)
                 resolve(data)
             })
@@ -17,8 +15,7 @@ export default class ItemService {
 
     async getAllItems() {
         const items = await new Promise((resolve, reject) => {
-            // TODO: SELECT EXACTLY WHAT IS NEEDED.
-            database.getConnection().query('SELECT * FROM items', (err, data) => {
+            database.getConnection().query('SELECT id, category_id, name FROM items', (err, data) => {
                 if (err) reject(err)
                 resolve(data)
             })
