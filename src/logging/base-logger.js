@@ -1,4 +1,4 @@
-export default class BaseLogger {
+class BaseLogger {
     log(message) {
         console.log(message)
     }
@@ -32,4 +32,4 @@ export default class BaseLogger {
     }
 }
 
-const baseLogger = new BaseLogger()
+export const baseLogger = new BaseLogger()

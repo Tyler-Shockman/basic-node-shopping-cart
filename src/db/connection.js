@@ -1,8 +1,9 @@
 import mysql from 'mysql'
+import { baseLogger } from '../logging/base-logger'
 
 class DBConnection {
     startConnection() {
-        console.log('Starting database connection...')
+        baseLogger.log('Starting database connection...')
         this.connection = mysql.createConnection({
             host: process.env.DB_HOST || 'localhost',
             port: process.env.DB_PORT || '3306',
@@ -11,7 +12,7 @@ class DBConnection {
             database: process.env.DB_NAME || 'test'
         })
         this.connection.connect()
-        console.log('...database connection started.')
+        baseLogger.log('...database connection started.')
     }
 
     getConnection() {
