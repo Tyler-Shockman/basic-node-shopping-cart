@@ -1,5 +1,5 @@
 import mysql from 'mysql'
-import { baseLogger } from '../logging/base-logger'
+import { baseLogger } from '../logging/base-logger.js'
 
 class DBConnection {
     startConnection() {

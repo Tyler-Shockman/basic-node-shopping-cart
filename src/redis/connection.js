@@ -1,5 +1,5 @@
 import { createClient } from "redis"
-import { baseLogger } from "../logging/base-logger"
+import { baseLogger } from "../logging/base-logger.js"
 
 class RedisConnection {
     startConnection() {
