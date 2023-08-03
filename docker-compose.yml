@@ -1,0 +1,15 @@
+services:
+  app:
+    build: .
+    ports:
+      - 3000:3000
+  grocer-db:
+    image: mysql
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
+    ports:
+      - 3306:3306
+  cart-redis:
+    image: redis
+    ports:
+      - 6379:6379
